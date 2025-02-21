@@ -1,6 +1,6 @@
 # README: Movie Genre Classification Using Ensemble Learning
 
-This repository contains the code for a multi-label movie genre classification system using ensemble learning techniques. The system combines traditional machine learning algorithms (Naive Bayes, SVM, and Logistic Regression) with soft and hard voting to classify movie plots into multiple genres. The model is trained on the Trailer12K dataset and tested on both the Trailer12K and LMTD9 datasets.
+This repository contains the code for a multi-label movie genre classification system using **traditional machine learning (ML) algorithms**, **transformer-based deep learning models (BERT, DistilBERT, RoBERTa)**, and **LIME (Local Interpretable Model-agnostic Explanations)** for explainability. The system is trained on the Trailer12K dataset and tested on both the Trailer12K and LMTD9 datasets. The transformer-based soft voting ensemble model is saved for future use, such as explainability with LIME.
 
 ---
 
@@ -11,13 +11,19 @@ This repository contains the code for a multi-label movie genre classification s
 4. [Model Architecture](#model-architecture)
 5. [Implementation Steps](#implementation-steps)
 6. [Results](#results)
-7. [License](#license)
+7. [LIME Implementation](#lime-implementation)
+8. [License](#license)
 
 ---
 
 ## Introduction
 
-The goal of this project is to classify movie plots into multiple genres using an ensemble of traditional machine learning algorithms. The system employs a combination of Naive Bayes, Support Vector Machines (SVM), and Logistic Regression, with soft and hard voting mechanisms to improve classification accuracy. The model is trained on the Trailer12K dataset and evaluated on both the Trailer12K and LMTD9 datasets.
+The goal of this project is to classify movie plots into multiple genres using **three approaches**:
+1. **Traditional Machine Learning (ML) Ensemble**: Combines Naive Bayes, Support Vector Machines (SVM), and Logistic Regression with soft and hard voting mechanisms.
+2. **Transformer-Based Deep Learning Ensemble**: Combines BERT, DistilBERT, and RoBERTa with soft and hard voting mechanisms.
+3. **LIME (Local Interpretable Model-agnostic Explanations)**: Provides local and global explanations for the transformer-based ensemble model predictions.
+
+The system is trained on the Trailer12K dataset and evaluated on both the Trailer12K and LMTD9 datasets. The transformer-based soft voting ensemble model is saved for future use, such as explainability with LIME.
 
 ---
 
@@ -56,14 +62,25 @@ Several preprocessing steps were applied to clean and standardize the text data:
 
 ## Model Architecture
 
-The model uses an ensemble of three traditional machine learning algorithms:
+### Traditional Machine Learning (ML) Ensemble
+The traditional ML ensemble uses a combination of three algorithms:
 1. **Naive Bayes (NB)**: A probabilistic classifier based on Bayes' theorem.
 2. **Support Vector Machine (SVM)**: A classifier that finds the optimal hyperplane for separating classes.
 3. **Logistic Regression (LR)**: A linear model for binary and multi-class classification.
 
-### Ensemble Techniques
+#### Ensemble Techniques
 - **Soft Voting**: Combines the predicted probabilities of each classifier.
 - **Hard Voting**: Combines the predicted class labels of each classifier.
+
+### Transformer-Based Deep Learning Ensemble
+The transformer-based ensemble uses a combination of three state-of-the-art models:
+1. **BERT (Bidirectional Encoder Representations from Transformers)**: A transformer-based model pre-trained on large text corpora.
+2. **DistilBERT**: A distilled version of BERT, smaller and faster while retaining most of BERT's performance.
+3. **RoBERTa (Robustly Optimized BERT Pretraining Approach)**: An optimized version of BERT with improved training techniques.
+
+#### Ensemble Techniques
+- **Soft Voting**: Combines the predicted probabilities of each transformer model.
+- **Hard Voting**: Combines the predicted class labels of each transformer model.
 
 ### Multi-Output Classifier
 The `MultiOutputClassifier` is used to handle multi-label classification, where each movie plot can belong to multiple genres.
@@ -81,7 +98,7 @@ cd LIME
 ### Step 2: Install Dependencies
 Ensure you have the following Python libraries installed:
 ```bash
-pip install pandas numpy scikit-learn matplotlib tqdm openpyxl
+pip install pandas numpy scikit-learn matplotlib tqdm openpyxl torch transformers lime
 ```
 
 ### Step 3: Prepare the Dataset
@@ -89,15 +106,22 @@ pip install pandas numpy scikit-learn matplotlib tqdm openpyxl
 2. Update the file paths in the code if necessary.
 
 ### Step 4: Run the Code
-Execute the Python script to train and evaluate the model:
+Execute the Python scripts to train and evaluate the models:
+1. **Traditional ML Ensemble**: Run `tradensemble.py`.
+2. **Transformer-Based Deep Learning Ensemble**: Run `deepensemble.py`.
+3. **LIME Implementation**: Run `limeplot.py`.
+
 ```bash
-python movie_genre_classification.py
+python tradensemble.py
+python deepensemble.py
+python limeplot.py
 ```
 
 ### Step 5: View Results
 - The classification reports, confusion matrices, and AUC metrics will be printed in the console.
 - ROC and Precision-Recall curves will be saved as PNG files in the working directory.
 - Predicted results for the test dataset will be saved as Excel files.
+- The transformer-based soft voting ensemble model will be saved for future use (e.g., LIME).
 
 ---
 
@@ -130,13 +154,53 @@ Classification Report for Soft Voting Classifier:
 
 ---
 
+## LIME Implementation
+
+The `limeplot.py` script provides local and global explanations for the transformer-based ensemble model predictions using LIME. It includes the following functionality:
+
+1. **Loading Ensemble Models**:
+   - Loads pre-trained BERT, DistilBERT, and RoBERTa models and their tokenizers.
+
+2. **Ensemble Predictor**:
+   - Combines predictions from the transformer models using soft voting.
+
+3. **LIME Explainer**:
+   - Initializes a `LimeTextExplainer` to generate explanations for individual predictions.
+
+4. **Explanation Generation**:
+   - For a given movie plot, the script generates LIME explanations for the top 2 predicted genres.
+   - Displays the explanations in the notebook and saves them as HTML and PNG files.
+
+5. **Custom Visualization**:
+   - Creates a bar plot of feature importance using custom colors for positive and negative contributions.
+
+### Example Usage
+```python
+# Explain the top 1 predicted genre
+explain_genre(ensemble_predictor, plot_to_explain, top_genre_indices[0])
+
+# Explain the second predicted genre
+explain_genre(ensemble_predictor, plot_to_explain, top_genre_indices[1])
+```
+
+### Output
+- **HTML File**: Contains the LIME explanation for the specified genre.
+- **PNG File**: A high-resolution bar plot showing the most important words for the predicted genre.
+
+---
+
 ## License
 
-This project is licensed under the GIT 2025 License.
+This project is licensed under the GIT/ZENODO 2025 License.Cite: https://doi.org/10.5281/zenodo.14906135
 
 ---
 
 ## Acknowledgments
 - The Trailer12K and LMTD9 datasets were used for training and testing.
-- The ensemble learning approach was implemented using scikit-learn.
-```
+- The traditional ML ensemble approach was implemented using scikit-learn.
+- The transformer-based ensemble learning approach was implemented using the `transformers` library by Hugging Face.
+- LIME implementation was done using the `lime` library.
+
+---
+
+This README provides a comprehensive overview of the project, including the traditional ML ensemble, transformer-based deep learning ensemble, and LIME implementation for explainability. Let me know if you need further adjustments!
