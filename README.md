@@ -196,14 +196,3 @@ explain_genre(ensemble_predictor, plot_to_explain, top_genre_indices[1])
 
 This project is licensed under the GIT/ZENODO 2025 License.Cite: https://doi.org/10.5281/zenodo.14906135
 
----
-
-## Acknowledgments
-- The Trailer12K and LMTD9 datasets were used for training and testing.
-- The traditional ML ensemble approach was implemented using scikit-learn.
-- The transformer-based ensemble learning approach was implemented using the `transformers` library by Hugging Face.
-- LIME implementation was done using the `lime` library.
-
----
-
-This README provides a comprehensive overview of the project, including the traditional ML ensemble, transformer-based deep learning ensemble, and LIME implementation for explainability. Let me know if you need further adjustments!
