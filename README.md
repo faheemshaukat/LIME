@@ -1,7 +1,7 @@
 # LIME
-An Interpretable Multi-Transformer1 Ensemble for Text-Based Movie Genre Classification
+An Interpretable Multi-Transformer Ensemble for Text-Based Movie Genre Classification
 
-# README: Movie Genre Classification Using Ensemble Learning
+# Movie Genre Classification Using Ensemble Learning
 
 This repository contains the code for a multi-label movie genre classification system using **traditional machine learning (ML) algorithms**, **transformer-based deep learning models (BERT, DistilBERT, RoBERTa)**, and **LIME (Local Interpretable Model-agnostic Explanations)** for explainability. The system is trained on the Trailer12K dataset and tested on both the Trailer12K and LMTD9 datasets. The transformer-based soft voting ensemble model is saved for future use, such as explainability with LIME.
 
